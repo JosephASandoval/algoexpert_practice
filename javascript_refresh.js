@@ -33,7 +33,23 @@ String.prototype.symmetricSubstrings = function () {
 // anagrams('listen', 'silent') => true
 // anagrams('listen', 'potato') => false
 
+function anagrams(str1, str2) {
 
+  hash = {};
+
+  str1.split("").forEach((el) => {
+    hash[el] ||= 0;
+    hash[el] += 1;
+  })
+
+  str2.split("").forEach((el) => {
+    hash[el] ||= 0;
+    hash[el] -= 1;
+  })
+
+  return Object.values(hash).every((el) => el === 0)
+
+}
 
 // Write a function `titleize(str)` that capitalizes each word in a string like
 // a book title. 

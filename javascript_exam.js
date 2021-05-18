@@ -241,7 +241,45 @@ function jumbleSort(string, alphabet) {
 // until a base case is reached. Use a helper method, merge, to combine the
 // halves in sorted order, and return the merged array.
 
+Array.prototype.mergeSort = function (cb) {
+  cb ||= function (x, y) {
+    if (x < y) return -1;
+    else if (x > y) return 1;
+    else return 0;
+  };
 
+  if (this.length < 2) return this;
+
+  let midIdx = Math.floor(this.length / 2);
+
+  let left = this.slice(0, midIdx);
+  let right = this.slice(midIdx);
+
+  let sortedLeft = left.mergeSort(cb);
+  let sortedRight = right.mergeSort(cb);
+
+  return merge(sortedLeft, sortedRight, cb);
+};
+
+function merge(left, right, cb) {
+  let merged = [];
+
+  while (left.length !== 0 && right.length !== 0) {
+    switch (cb(left[0], right[0])) {
+      case -1:
+        merged.push(left.shift());
+        break;
+      case 0:
+        merged.push(left.shift());
+        break;
+      case 1:
+        merged.push(right.shift());
+        break;
+    }
+  }
+
+  return merged.concat(left, right);
+}
 
 // Write a recursive function, `binarySearch(sortedArray, target)`, that returns
 // the index of `target` in `sortedArray`, or -1 if it is not found. Do NOT use

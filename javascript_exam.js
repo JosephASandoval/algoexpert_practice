@@ -127,6 +127,24 @@ String.prototype.realWordsInString = function (dictionary) {
 // sort each side of the array until a base case is reached. 
 
 
+Array.prototype.quickSort = function (cb) {
+  cb ||= function (x, y) {
+    if (x < y) return -1;
+    else if (x > y) return 1;
+    else return 0;
+  };
+
+  if (this.length < 2) return this;
+
+  let pivot = this[0];
+  let left = this.slice(1).filter((el) => cb(el, pivot) === -1);
+  let right = this.slice(1).filter((el) => cb(el, pivot) !== -1);
+
+  let leftSorted = left.quickSort(cb);
+  let rightSorted = right.quickSort(cb);
+
+  return [...leftSorted, pivot, ...rightSorted];
+}
 
 // Write an `Array.prototype.bubbleSort(callback)` method, that bubble sorts an array.
 // It should take an optional callback that compares two elements, returning

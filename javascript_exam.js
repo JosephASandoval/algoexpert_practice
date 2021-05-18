@@ -160,7 +160,33 @@ Array.prototype.quickSort = function (cb) {
 // reaching the end of the array, repeat the process. Otherwise, return the
 // sorted array.
 
+Array.prototype.bubbleSort = function (cb) {
+  cb ||= function (x, y) {
+    if (x < y) return -1;
+    else if (x > y) return 1;
+    else return 0;
+  };
 
+  let arr = this.slice(0);
+  
+  let sorted = false;
+
+  while (!sorted) {
+    sorted = true;
+
+    for (let i = 0; i < arr.length - 1; i++) {
+      let current = arr[i];
+      let next = arr[i + 1];
+      if (cb(current, next) === 1) {
+        arr[i] = next;
+        arr[i + 1] = current;
+        sorted = false;
+      }
+    }
+  }
+
+  return arr;
+}
 
 // Write a function `jumbleSort(string, alphabet)`.
 // Jumble sort takes a string and an alphabet. It returns a copy of the string

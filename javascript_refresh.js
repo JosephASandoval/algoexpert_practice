@@ -56,7 +56,30 @@ function anagrams(str1, str2) {
 // Do not capitalize the following words (unless they are the first word in the 
 // string): ["a", "and", "of", "over", "the"]
 
+//covert the string of word into an array of words, split at the space
+//iterate through the array
+//create a new empty array
+// fill the new array with properly cap words by using conditional logic
+// make sure that the first word is cap
 
+function titleize(str) {
+  let littleWords = ["a", "and", "of", "over", "the"];
+
+  let arr = str.split(" ");
+
+  let newArr = [];
+
+  arr.forEach((word) => {
+    if (!littleWords.includes(word)) {
+      newArr.push(word.slice(0, 1).toUpperCase() + word.slice(1).toLowerCase());
+    } else {
+      newArr.push(word.toLowerCase());
+    }
+  });
+
+  newArr[0] = newArr[0].slice(0, 1).toUpperCase() + newArr[0].slice(1);
+  return newArr.join(" ");
+}
 
 // Write a `String.prototype.realWordsInString(dictionary)` method, that returns
 // an array containing the substrings of `string` that appear in `dictionary`.

@@ -201,7 +201,29 @@ Array.prototype.bubbleSort = function (cb) {
 // jumbleSort("hello") => "ehllo"
 // jumbleSort("hello", ['o', 'l', 'h', 'e']) => 'ollhe'
 
+function jumbleSort(string, alphabet) {
+  alphabet ||= "abcdefghijklmnopqrstuvwxyz";
 
+  let arr = string.split("");
+
+  let sorted = false;
+
+  while (!sorted) {
+    sorted = true;
+
+    for (let i = 0; i < arr.length - 1; i++) {
+      let current = arr[i];
+      let next = arr[i + 1];
+      if (alphabet.indexOf(current) > alphabet.indexOf(next)) {
+        arr[i] = next;
+        arr[i + 1] = current;
+        sorted = false;
+      }
+    }
+  }
+
+  return arr.join("");
+}
 
 // Write an `Array.prototype.mergeSort` method that merge sorts an array. It
 // should take an optional callback that compares two elements, returning -1 if 

@@ -85,7 +85,34 @@ function titleize(str) {
 // an array containing the substrings of `string` that appear in `dictionary`.
 // sorted alphabetically. This method does NOT return any duplicates.
 
+// convert string to an array
+// get an array of all substrings by using a nested for loop
+// if substring is included in the dictionary, but not included in the new array, then add it to a new array
+// sort the new array alphabetically and return it
 
+String.prototype.realWordsInString = function (dictionary) {
+
+  let arr = this.split("");
+
+  let newArr = [];
+
+  for (i = 0; i < this.length; i++) { // str [s, st, str, t, tr, r]
+    for (j = i; j < this.length; j++) {
+      newArr.push(this.slice(i, j + 1));
+    };
+  };
+
+  let finalArr = [];
+
+  newArr.forEach((word) => {
+    if (dictionary.includes(word) && !(finalArr.includes(word))) {
+      finalArr.push(word)
+    };
+  });
+
+  return finalArr.sort()
+
+}
 
 // Write an `Array.prototype.quickSort(callback)` method that quick sorts an array. 
 // It should take an optional callback that compares two elements, returning -1 

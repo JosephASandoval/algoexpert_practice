@@ -3,7 +3,26 @@
 // substrings of length > 1.
 // e.g. "cool".symmetricSubstrings() => ["oo"]
 
+String.prototype.symmetricSubstrings = function() {
+  let arr = [];
 
+  for (let i = 0; i < this.length; i++) {
+    for (let j = i; j < this.length; j++) {
+      arr.push(this.slice(i, j + 1));
+    }
+  }
+
+  let newArr = [];
+  
+  arr.forEach((subString) => {
+    let reversed = subString.split("").reverse().join("");
+    if (subString === reversed && subString.length > 1) {
+      newArr.push(subString);
+    }
+  })
+
+  return newArr.sort();
+}
 
 // Write a function, `anagrams(str1, str2)`, that takes in two words and returns 
 // a boolean indicating whether or not the words are anagrams. Anagrams are 
@@ -14,20 +33,70 @@
 // anagrams('listen', 'silent') => true
 // anagrams('listen', 'potato') => false
 
+function anagrams(str1, str2) {
+  let hash = {};
 
+  str1.split("").forEach((el) => {
+    hash[el] ||= 0;
+    hash[el] += 1;
+  });
+
+  str2.split("").forEach((el) => {
+    hash[el] ||= 0;
+    hash[el] -= 1;
+  });
+
+  return Object.values(hash).every((el) => el === 0);
+
+}
 
 // Write a function `titleize(str)` that capitalizes each word in a string like
 // a book title. 
 // Do not capitalize the following words (unless they are the first word in the 
 // string): ["a", "and", "of", "over", "the"]
 
+function titleize(str) {
+  let smallWords = ["a", "and", "of", "over", "the"];
 
+  let arr = [];
+
+  str.split(" ").forEach((word) => {
+    if (!smallWords.includes(word)) {
+      arr.push(word.slice(0, 1).toUpperCase() + word.slice(1).toLowerCase());
+    } else {
+      arr.push(word.toLowerCase());
+    }
+  });
+
+  let newArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (i === 0) {
+      newArr.push(
+        arr[i].slice(0, 1).toUpperCase() + arr[i].slice(1).toLowerCase()
+      );
+    } else {
+      newArr.push(arr[i]);
+    }
+  }
+
+  return newArr.join(" ");
+}
 
 // Write a `String.prototype.realWordsInString(dictionary)` method, that returns
 // an array containing the substrings of `string` that appear in `dictionary`.
 // sorted alphabetically. This method does NOT return any duplicates.
 
+String.prototype.realWordsInString = function(dictionary) {
 
+  let newArr = [];
+  dictionary.forEach((word) => {
+    if (this.includes(word)) {
+      newArr.push(word);
+    }
+  })
+
+  return newArr.sort();
+}
 
 // Write an `Array.prototype.quickSort(callback)` method that quick sorts an array. 
 // It should take an optional callback that compares two elements, returning -1 
@@ -41,6 +110,26 @@
 // remaining elements on to the appropriate side of the pivot. Recursively quick 
 // sort each side of the array until a base case is reached. 
 
+Array.prototype.quickSort = function (callback) {
+  callback ||= function (x, y) {
+    if (x < y) return -1;
+    else if (x > y) return 1;
+    else return 0;
+  };
+
+  if (this.length < 2) return this;
+
+  let pivot = this[0];
+
+
+  let left = this.slice(1).filter((el) => callback(el, pivot) === -1);
+  let right = this.slice(1).filter((el) => callback(el, pivot) !== -1);
+
+  let sortedLeft = left.quickSort(callback);
+  let sortedRight = right.quickSort(callback);
+
+  return sortedLeft.concat([pivot], sortedRight);
+}
 
 
 // Write an `Array.prototype.bubbleSort(callback)` method, that bubble sorts an array.
@@ -57,7 +146,33 @@
 // reaching the end of the array, repeat the process. Otherwise, return the
 // sorted array.
 
+Array.prototype.bubbleSort = function (callback) {
+  callback ||= function (x, y) {
+    if (x < y) return -1;
+    else if (x > y) return 1;
+    else return 0;
+  };
 
+  let arr = this.slice(0);
+
+  let sorted = false;
+
+  while (!sorted) {
+    sorted = true;
+
+    for (let i = 0; i < arr.length - 1; i++) {
+      let current = arr[i];
+      let next = arr[i + 1];
+      if (callback(current, next) === 1) {
+        arr[i] = next;
+        arr[i + 1] = current;
+        sorted = false;
+      }
+    }
+  }
+
+  return arr
+}
 
 // Write a function `jumbleSort(string, alphabet)`.
 // Jumble sort takes a string and an alphabet. It returns a copy of the string
@@ -72,7 +187,31 @@
 // jumbleSort("hello") => "ehllo"
 // jumbleSort("hello", ['o', 'l', 'h', 'e']) => 'ollhe'
 
+function jumbleSort(string, alphabet) {
 
+  alphabet ||= "abcdefghijklmnopqrstuvwxyz";
+
+  let arr = string.split("");
+
+  let sorted = false;
+
+  while (!sorted) {
+    sorted = true;
+
+    for (let i = 0; i < arr.length - 1; i++) {
+      let current = arr[i];
+      let next = arr[i + 1];
+      if (alphabet.indexOf(current) > alphabet.indexOf(next)) {
+        arr[i] = next;
+        arr[i + 1] = current;
+        sorted = false;
+      }
+    }
+  }
+
+  return arr.join("");
+
+}
 
 // Write an `Array.prototype.mergeSort` method that merge sorts an array. It
 // should take an optional callback that compares two elements, returning -1 if 
@@ -90,7 +229,45 @@
 // until a base case is reached. Use a helper method, merge, to combine the
 // halves in sorted order, and return the merged array.
 
+Array.prototype.mergeSort = function (cb) {
+  cb ||= function (x, y) {
+    if (x < y) return -1;
+    else if (x > y) return 1;
+    else return 0;
+  };
 
+  if (this.length < 2) return this;
+
+  let midIdx = Math.floor(this.length / 2);
+
+  let left = this.slice(0, midIdx);
+  let right = this.slice(midIdx);
+
+  let sortedLeft = left.mergeSort(cb);
+  let sortedRight = right.mergeSort(cb);
+
+  return merge(sortedLeft, sortedRight, cb);
+}
+
+function merge(left, right, cb) {
+  let merged = [];
+
+  while (left.length !== 0 && right.length !== 0) {
+    switch (cb(left[0], right[0])) {
+      case -1: 
+        merged.push(left.shift());
+        break;
+      case 0:
+        merged.push(left.shift());
+        break;
+      case 1:
+        merged.push(right.shift());
+        break;
+    }
+  }
+
+  return merged.concat(left, right);
+}
 
 // Write a recursive function, `binarySearch(sortedArray, target)`, that returns
 // the index of `target` in `sortedArray`, or -1 if it is not found. Do NOT use

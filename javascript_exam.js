@@ -3,26 +3,7 @@
 // substrings of length > 1.
 // e.g. "cool".symmetricSubstrings() => ["oo"]
 
-String.prototype.symmetricSubstrings = function () {
-  let arr = [];
 
-  for (let i = 0; i < this.length; i++) {
-    for (let j = i; j < this.length; j++) {
-      arr.push(this.slice(i, j + 1));
-    }
-  }
-
-  let newArr = [];
-
-  arr.forEach((word) => {
-    let reversedWord = word.split("").reverse().join("");
-    if (word === reversedWord && word.length > 1) {
-      newArr.push(word);
-    }
-  });
-
-  return newArr.sort();
-};
 
 // Write a function, `anagrams(str1, str2)`, that takes in two words and returns 
 // a boolean indicating whether or not the words are anagrams. Anagrams are 
@@ -33,86 +14,20 @@ String.prototype.symmetricSubstrings = function () {
 // anagrams('listen', 'silent') => true
 // anagrams('listen', 'potato') => false
 
-function anagrams(str1, str2) {
 
-  hash = {};
-
-  str1.split("").forEach((el) => {
-    hash[el] ||= 0;
-    hash[el] += 1;
-  })
-
-  str2.split("").forEach((el) => {
-    hash[el] ||= 0;
-    hash[el] -= 1;
-  })
-
-  return Object.values(hash).every((el) => el === 0)
-
-}
 
 // Write a function `titleize(str)` that capitalizes each word in a string like
 // a book title. 
 // Do not capitalize the following words (unless they are the first word in the 
 // string): ["a", "and", "of", "over", "the"]
 
-//covert the string of word into an array of words, split at the space
-//iterate through the array
-//create a new empty array
-// fill the new array with properly cap words by using conditional logic
-// make sure that the first word is cap
 
-function titleize(str) {
-  let littleWords = ["a", "and", "of", "over", "the"];
-
-  let arr = str.split(" ");
-
-  let newArr = [];
-
-  arr.forEach((word) => {
-    if (!littleWords.includes(word)) {
-      newArr.push(word.slice(0, 1).toUpperCase() + word.slice(1).toLowerCase());
-    } else {
-      newArr.push(word.toLowerCase());
-    }
-  });
-
-  newArr[0] = newArr[0].slice(0, 1).toUpperCase() + newArr[0].slice(1);
-  return newArr.join(" ");
-}
 
 // Write a `String.prototype.realWordsInString(dictionary)` method, that returns
 // an array containing the substrings of `string` that appear in `dictionary`.
 // sorted alphabetically. This method does NOT return any duplicates.
 
-// convert string to an array
-// get an array of all substrings by using a nested for loop
-// if substring is included in the dictionary, but not included in the new array, then add it to a new array
-// sort the new array alphabetically and return it
 
-String.prototype.realWordsInString = function (dictionary) {
-
-  let arr = this.split("");
-
-  let newArr = [];
-
-  for (i = 0; i < this.length; i++) { // str [s, st, str, t, tr, r]
-    for (j = i; j < this.length; j++) {
-      newArr.push(this.slice(i, j + 1));
-    };
-  };
-
-  let finalArr = [];
-
-  newArr.forEach((word) => {
-    if (dictionary.includes(word) && !(finalArr.includes(word))) {
-      finalArr.push(word)
-    };
-  });
-
-  return finalArr.sort()
-
-}
 
 // Write an `Array.prototype.quickSort(callback)` method that quick sorts an array. 
 // It should take an optional callback that compares two elements, returning -1 
@@ -127,24 +42,6 @@ String.prototype.realWordsInString = function (dictionary) {
 // sort each side of the array until a base case is reached. 
 
 
-Array.prototype.quickSort = function (cb) {
-  cb ||= function (x, y) {
-    if (x < y) return -1;
-    else if (x > y) return 1;
-    else return 0;
-  };
-
-  if (this.length < 2) return this;
-
-  let pivot = this[0];
-  let left = this.slice(1).filter((el) => cb(el, pivot) === -1);
-  let right = this.slice(1).filter((el) => cb(el, pivot) !== -1);
-
-  let leftSorted = left.quickSort(cb);
-  let rightSorted = right.quickSort(cb);
-
-  return [...leftSorted, pivot, ...rightSorted];
-}
 
 // Write an `Array.prototype.bubbleSort(callback)` method, that bubble sorts an array.
 // It should take an optional callback that compares two elements, returning
@@ -160,33 +57,7 @@ Array.prototype.quickSort = function (cb) {
 // reaching the end of the array, repeat the process. Otherwise, return the
 // sorted array.
 
-Array.prototype.bubbleSort = function (cb) {
-  cb ||= function (x, y) {
-    if (x < y) return -1;
-    else if (x > y) return 1;
-    else return 0;
-  };
 
-  let arr = this.slice(0);
-  
-  let sorted = false;
-
-  while (!sorted) {
-    sorted = true;
-
-    for (let i = 0; i < arr.length - 1; i++) {
-      let current = arr[i];
-      let next = arr[i + 1];
-      if (cb(current, next) === 1) {
-        arr[i] = next;
-        arr[i + 1] = current;
-        sorted = false;
-      }
-    }
-  }
-
-  return arr;
-}
 
 // Write a function `jumbleSort(string, alphabet)`.
 // Jumble sort takes a string and an alphabet. It returns a copy of the string
@@ -201,29 +72,7 @@ Array.prototype.bubbleSort = function (cb) {
 // jumbleSort("hello") => "ehllo"
 // jumbleSort("hello", ['o', 'l', 'h', 'e']) => 'ollhe'
 
-function jumbleSort(string, alphabet) {
-  alphabet ||= "abcdefghijklmnopqrstuvwxyz";
 
-  let arr = string.split("");
-
-  let sorted = false;
-
-  while (!sorted) {
-    sorted = true;
-
-    for (let i = 0; i < arr.length - 1; i++) {
-      let current = arr[i];
-      let next = arr[i + 1];
-      if (alphabet.indexOf(current) > alphabet.indexOf(next)) {
-        arr[i] = next;
-        arr[i + 1] = current;
-        sorted = false;
-      }
-    }
-  }
-
-  return arr.join("");
-}
 
 // Write an `Array.prototype.mergeSort` method that merge sorts an array. It
 // should take an optional callback that compares two elements, returning -1 if 
@@ -241,45 +90,7 @@ function jumbleSort(string, alphabet) {
 // until a base case is reached. Use a helper method, merge, to combine the
 // halves in sorted order, and return the merged array.
 
-Array.prototype.mergeSort = function (cb) {
-  cb ||= function (x, y) {
-    if (x < y) return -1;
-    else if (x > y) return 1;
-    else return 0;
-  };
 
-  if (this.length < 2) return this;
-
-  let midIdx = Math.floor(this.length / 2);
-
-  let left = this.slice(0, midIdx);
-  let right = this.slice(midIdx);
-
-  let sortedLeft = left.mergeSort(cb);
-  let sortedRight = right.mergeSort(cb);
-
-  return merge(sortedLeft, sortedRight, cb);
-};
-
-function merge(left, right, cb) {
-  let merged = [];
-
-  while (left.length !== 0 && right.length !== 0) {
-    switch (cb(left[0], right[0])) {
-      case -1:
-        merged.push(left.shift());
-        break;
-      case 0:
-        merged.push(left.shift());
-        break;
-      case 1:
-        merged.push(right.shift());
-        break;
-    }
-  }
-
-  return merged.concat(left, right);
-}
 
 // Write a recursive function, `binarySearch(sortedArray, target)`, that returns
 // the index of `target` in `sortedArray`, or -1 if it is not found. Do NOT use

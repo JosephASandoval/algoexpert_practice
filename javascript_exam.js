@@ -322,7 +322,19 @@ function helper(x, y) {
 // and are completely different objects in memory than those in the original 
 // array.
 
+function deepDup(arr) {
+  let newArr = [];
 
+  arr.forEach((el) => {
+    if (Array.isArray(el)) {
+      newArr.push(deepDup(el));
+    } else {
+      newArr.push(el);
+    }
+  })
+
+  return newArr;
+}
 
 // Write a function, `exponent(b, n)`, that calculates b^n recursively. 
 // Your solution should accept negative values for n. Do NOT use ** or Math.pow

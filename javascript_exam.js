@@ -371,7 +371,12 @@ function stringIncludeKey(string, key) {
 // fibonacci numbers recursively. Assume n > 0.
 // Note that for this problem, the fibonacci sequence starts with [1, 1]. 
 
+function fibsSum(n) {
+  if (n === 0) return 0;
+  if (n === 1) return 1;
 
+  return fibsSum(n - 1) + fibsSum(n - 2) + 1;
+}
 
 // Write a recursive function, `factorialsRec(num)`, that returns the first 
 // `num` factorial numbers. Note that the 1st factorial number is 0!, which 

@@ -339,7 +339,15 @@ function deepDup(arr) {
 // Write a function, `exponent(b, n)`, that calculates b^n recursively. 
 // Your solution should accept negative values for n. Do NOT use ** or Math.pow
 
+function exponent(b, n) {
+  if (n === 0) return 1;
 
+  if (n > 0) {
+    return exponent(b, n - 1) * b
+  } else {
+    return (1 / b) * exponent(b, n + 1)
+  }
+}
 
 // Write a recursive function `stringIncludeKey(string, key)` that takes in 
 // a string to search and a key string. Return true if the string contains all 
@@ -348,6 +356,15 @@ function deepDup(arr) {
 // stringIncludeKey("cadbpc", "abc") => true
 // stringIncludeKey("cba", "abc") => false
 
+function stringIncludeKey(string, key) {
+  if (key.length === 0) return true;
+
+  let nextKeyChar = key[0];
+  let keyIdx = string.indexOf(nextKeyChar);
+
+  if (keyIdx === -1) return false;
+  return stringIncludeKey(string.slice(keyIdx + 1, string.length), key.slice(1))
+}
 
 
 // Write a function, `fibsSum(n)`, that finds the sum of the first n

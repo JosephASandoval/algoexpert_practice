@@ -382,7 +382,13 @@ function fibsSum(n) {
 // `num` factorial numbers. Note that the 1st factorial number is 0!, which 
 // equals 1. The 2nd factorial is 1!, the 3rd factorial is 2!, etc.
 
+function factorialsRec(num) {
+  if (num === 1) return [1]
 
+  let facArr = factorialsRec(num - 1);
+  facArr.push(facArr[facArr.length - 1] * (num - 1));
+  return facArr;
+}
 
 // Write a function, `digitalRoot(num)`. It should sum the digits of a positive
 // integer. If the result is greater than 9 (i.e. more than one digit), sum the 
@@ -394,17 +400,42 @@ function fibsSum(n) {
 // You may wish to use a helper function, `digitalRootStep(num)` which performs
 // one step of the process.
 
+function digitalRoot(num) {
+  while (num > 9) {
+    num = digitalRootStep(num);
+  }
 
+  return num;
+}
+
+function digitalRootStep(num) { // should sum the digits and return the result
+  let count = 0;
+
+  while (num > 0) {
+    count += num % 10;
+    num = Math.floor(num / 10);
+  }
+
+  return count;
+}
 
 // Write a recursive function `recSum(numArr)` that returns the sum of all
 // elements in an array. Assume all elements are numbers.
 
+function recSum(numArr) {
+  if (numArr.length === 0) return 0;
 
+  return recSum(numArr.slice(1)) + numArr[0];
+}
 
 // Write a function `firstEvenNumbersSum(n)` that returns the sum of the
 // first n even numbers recursively. Assume n > 0
 
+function firstEvenNumbersSum(n) {
+  if (n === 1) return 2; // 2 + 4 + 6 = 2 * 1 + 2 * 2 + 2 * 3
 
+  return firstEvenNumbersSum(n - 1) + (2 * n)
+}
 
 // Write a `String.prototype.mySlice(startIdx, endIdx)` method. It should take 
 // a start index and an (optional) end index and return a new string. Do NOT 
@@ -413,7 +444,9 @@ function fibsSum(n) {
 // `abcde`.mySlice(2) => `cde`
 // `abcde`.mySlice(1, 3) => `bc`
 
-
+String.prototype.mySlice = function (startIdx, endIdx) {
+  
+}
 
 // Write an `Array.prototype.twoSum` method, that finds all pairs of positions 
 // where the elements at those positions sum to zero.

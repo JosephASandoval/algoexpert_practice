@@ -445,7 +445,17 @@ function firstEvenNumbersSum(n) {
 // `abcde`.mySlice(1, 3) => `bc`
 
 String.prototype.mySlice = function (startIdx, endIdx) {
-  
+  if (startIdx > endIdx) return "";
+
+  endIdx ||= this.length;
+
+  let arr = [];
+
+  for (i = startIdx; i < endIdx; i++) {
+    arr.push(this[i]);
+  };
+
+  return arr.join("");
 }
 
 // Write an `Array.prototype.twoSum` method, that finds all pairs of positions 

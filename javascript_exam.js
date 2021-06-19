@@ -466,12 +466,37 @@ String.prototype.mySlice = function (startIdx, endIdx) {
 // [0, 2] before [1, 2] (smaller first elements come first)
 // [0, 1] before [0, 2] (then smaller second elements come first)
 
+Array.prototype.twoSum = function () {
+  let arr = [];
 
+  for (let i = 0; i < this.length; i++) {
+    for (let j = 0; j < this.length; j++) {
+      if ((i < j) && (this[i] + this[j] === 0)) {
+        arr.push([i, j]);
+      }
+    }
+  }
+
+  return arr;
+}
 
 // Write a function `transpose(arr)` that returns a 2d array transposed.
 // e.g. transpose([[1,2],[3,4],[5,6]]) => [[1,3,5],[2,4,6]]
 
+function transpose(arr) {
+  let subArr = [];
+  let finalArr = [];
 
+  for (i = 0; i < arr[0].length; i++) {
+    for (j = 0; j < arr.length; j++) {
+      subArr.push(arr[j][i])
+    }
+    finalArr.push(subArr);
+    subArr = [];
+  }
+
+  return finalArr;
+}
 
 // Write an `Array.prototype.median` method that returns the median of elements
 // in an array. If the length is even, return the average of the middle two 

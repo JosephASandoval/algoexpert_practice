@@ -502,7 +502,19 @@ function transpose(arr) {
 // in an array. If the length is even, return the average of the middle two 
 // elements.
 
+Array.prototype.median = function () {
+  let arr = this.sort();
 
+  let midIdx = Math.floor(arr.length / 2)
+
+  if (arr.length % 2 !== 0) {
+    return arr[midIdx];
+  } else if (arr.length === 0) {
+    return null;
+  } else {
+    return (arr[midIdx] + arr[midIdx - 1]) / 2
+  }
+}
 
 // Write an `Array.prototype.myJoin(separator)` method, which joins the elements
 // of an array into a string. If an argument is provided to `myJoin`, use that
@@ -512,7 +524,21 @@ function transpose(arr) {
 // [1, 2, 3].myJoin() => '123'
 // [1, 2, 3].myJoin('$') => '1$2$3'
 
+Array.prototype.myJoin = function (separator) {
+  separator ||= "";
 
+  let str = "";
+
+  this.forEach((el) => {
+    str += el + separator
+  })
+
+  if (separator !== "") {
+    return str.slice(0, str.length - 1)
+  } else {
+    return str
+  }
+}
 
 // Write a function `primes(num)`, which returns an array of the first "num" primes.
 // You may wish to use an `isPrime(num)` helper function.

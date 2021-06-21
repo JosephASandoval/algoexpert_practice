@@ -593,26 +593,73 @@ function factors(num) {
 // [1, 3, 4, 3, 0, 3, 0].dups => { 3: [1, 3, 5], 0: [4, 6] }
 
 
+// find the duplicate elements and make them a key to a hash map
+// find the indices of the duplicate elements and store them in an array
+
+Array.prototype.dups = function () {
+
+  let hash = {};
+  let finalHash = {};
+
+  this.forEach((el, idx) => {
+    hash[el] ||= [];
+    hash[el].push(idx);
+  })
+
+  let keysArr = Object.keys(hash).filter((el) => hash[el].length > 1)
+
+  keysArr.forEach((el) => {
+    finalHash[el] = hash[el];
+  })
+
+  return finalHash;
+}
 
 // Write an `Array.prototype.myFlatten()` method which flattens a 
 // multi-dimensional array into a one-dimensional array.
 // Example:
 // [["a"], "b", ["c", "d", ["e"]]].myFlatten() => ["a", "b", "c", "d", "e"]
 
+Array.prototype.myFlatten = function () {
+  let flattenedArr = [];
 
+  this.forEach((el) => {
+    if (Array.isArray(el)) {
+      flattenedArr = flattenedArr.concat(el.myFlatten())
+    } else {
+      flattenedArr.push(el)
+    }
+  })
+
+  return flattenedArr
+}
 
 // Write a function `myReverse(array)` which returns the array in reversed
 // order. Do NOT use the built-in `Array.prototype.reverse`.
 // ex. myReverse([1,2,3]) => [3,2,1]
 
+function myReverse(array) {
+  let reversedArr = [];
 
+  array.forEach((el) => {
+    reversedArr.unshift(el)
+  })
+
+  return reversedArr;
+}
 
 // Write a function `myFind(array, callback)` that returns the first
 // element for which the callback returns true. If none is found, the 
 // function should return `undefined`
 // Do not use the built-in `Array.prototype.find` method.
 
-
+function myFind(array, callback) {
+  array.forEach((el) => {
+    if (callback(el)) {
+      return el;
+    }
+  })
+}
 
 // Write an `Array.prototype.myRotate(times)` method which rotates the array by 
 // the given argument. If no argument is given, rotate the array by one position. 
@@ -621,7 +668,20 @@ function factors(num) {
 // ["a", "b", "c", "d"].myRotate(2) => ["c", "d", "a", "b"]
 // ["a", "b", "c", "d"].myRotate(-1) => ["d", "a", "b", "c"]
 
+Array.prototype.myRotate = function (times) {
+  times ||= 1;
 
+  while (times < 0) {
+    times += this.length
+  }
+
+  for (i = 0; i < times; i++) {
+    let el = this.shift()
+    this.push(el);
+  }
+
+  return this;
+}
 
 // Write a function, `doubler(arr)`, that returns a copy of the input array 
 // with all elements doubled. You do not need to worry about invalid input.
@@ -629,7 +689,9 @@ function factors(num) {
 // Example:
 // doubler([1, 2, 3]) => [2, 4, 6]
 
-
+function doubler(arr) {
+  return arr.map((el) => el * 2);
+}
 
 // Write a `Function.prototype.myBind(context)` method. It should return a copy
 // of the original function, where `this` is set to `context`. It should allow 

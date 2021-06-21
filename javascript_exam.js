@@ -543,12 +543,47 @@ Array.prototype.myJoin = function (separator) {
 // Write a function `primes(num)`, which returns an array of the first "num" primes.
 // You may wish to use an `isPrime(num)` helper function.
 
+function primes(num) {
 
+  let arr = [];
+  
+  let i = 2;
+  while (arr.length < num) {
+    if (isPrime(i)) {
+      arr.push(i)
+    }
+    i++;
+  }
+
+  return arr;
+}
+
+function isPrime(num) {
+  if (num < 2) return false;
+
+  for (i = 2; i < num; i++) {
+    if (num % i === 0) {
+      return false
+    }
+  }
+
+  return true;
+}
 
 // Write a function, `factors(num)`, that returns an array containing the factors
 // of a number in ascending order.
 
+function factors(num) {
+  if (num < 1) return null;
 
+  let arr = [];
+  for (let i = 0; i <= num; i++) {
+    if (num % i === 0) {
+      arr.push(i);
+    }
+  }
+  return arr
+}
 
 // Write an `Array.prototype.dups` method that will return an object containing 
 // the indices of all duplicate elements. The keys are the duplicate elements; 

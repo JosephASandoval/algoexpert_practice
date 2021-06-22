@@ -653,12 +653,12 @@ function myReverse(array) {
 // function should return `undefined`
 // Do not use the built-in `Array.prototype.find` method.
 
-function myFind(array, callback) {
-  array.forEach((el) => {
-    if (callback(el)) {
-      return el;
+function myFind(arr, callback) {
+  for (let i = 0; i < arr.length; i++) {
+    if (callback(arr[i])) {
+      return arr[i];
     }
-  })
+  }
 }
 
 // Write an `Array.prototype.myRotate(times)` method which rotates the array by 

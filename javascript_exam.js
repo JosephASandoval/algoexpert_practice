@@ -675,7 +675,7 @@ Array.prototype.myRotate = function (times) {
     times += this.length
   }
 
-  for (i = 0; i < times; i++) {
+  for (let i = 0; i < times; i++) {
     let el = this.shift()
     this.push(el);
   }
@@ -698,7 +698,12 @@ function doubler(arr) {
 // arguments to the function to be passed both at bind-time and call-time.
 // Note that you are NOT allowed to use ES6 arrow syntax for this problem.
 
-
+Function.prototype.myBind = function (context, ...bindArgs) {
+  let that = this;
+  return function (...callArgs) {
+    return that.apply(context, bindArgs.concat(callArgs));
+  }
+}
 
 // Write a `Function.prototype.myCall(context)` method, that accepts an object, 
 // and any number of additional arguments. It should call the function with the
